@@ -18,6 +18,7 @@ body{
     width: 100%;
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 1rem;
@@ -75,4 +76,21 @@ body{
 }
 .input-button:hover{
     background: var(--button-hover);
+}
+
+
+.signature{
+    color: whitesmoke;
+    background: linear-gradient(to right, red, blue);
+    background-position-x: 0;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px gray;
+    animation: signatureAni 5s infinite;
+}
+@keyframes signatureAni {
+    50%{
+        background-position-x: 500px;
+    }
 }
