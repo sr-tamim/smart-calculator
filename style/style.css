@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Charm&display=swap');
 
 :root{
     --body-background: linear-gradient(to right bottom, #00AAFF, #00FF6C);
@@ -72,10 +72,22 @@ body{
     cursor: pointer;
     border: 1px solid white;
     border-radius: 5px;
-    user-select: none;
 }
 .input-button:hover{
     background: var(--button-hover);
+}
+#squareBut, #sqrtBut, #oneDivided{
+    font-family: 'Charm';
+    font-weight: bold;
+}
+sup{
+    font-size: 17px;
+    position: relative;
+    top: -5px;
+}
+sub{
+    position: relative;
+    top: 5px;
 }
 
 
