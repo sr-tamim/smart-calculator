@@ -10,7 +10,7 @@ const dotBut = document.getElementById('dot');
 
 window.addEventListener('load', acFunc);
 
-let clickedBut, firstValue, secondValue, operator;
+let clickedBut = null, firstValue = null, secondValue = null, operator = null;
 
 dotBut.addEventListener('click', dotFunc);
 
@@ -82,6 +82,8 @@ function operation(event){
     numBut.forEach(element => {
         element.addEventListener('click', numButFunc);
     })
+
+    
 }
 
 
@@ -90,14 +92,16 @@ equalBut.addEventListener('click', equalFunc);
 function equalFunc(){
     secondValue = parseFloat(screen.value);
 
+    var calced = 0;
+
     if(operator == '+'){
-        var calced = firstValue + secondValue;
+        calced = firstValue + secondValue;
     } else if(operator == '−'){
-        var calced = firstValue - secondValue;
+        calced = firstValue - secondValue;
     } else if(operator == '×'){
-        var calced = firstValue * secondValue;
+        calced = firstValue * secondValue;
     } else if(operator == '÷'){
-        var calced = firstValue / secondValue;
+        calced = firstValue / secondValue;
     }
 
     screen.value = calced;

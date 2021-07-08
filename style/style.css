@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
 :root{
-    --body-background: linear-gradient(to right,#00AAFF,#00FF6C);
+    --body-background: linear-gradient(to right bottom, #00AAFF, #00FF6C);
     --display-background: #00342f;
     --button-color: #bffae3;
     --button-hover: #b9f5de;
@@ -25,7 +25,7 @@ body{
 }
 .calculator{
     min-width: 15rem;
-    max-width: 30rem;
+    max-width: 35rem;
 }
 .input-area{
     background: var(--display-background);
@@ -37,7 +37,7 @@ body{
     color: #bffae3;
     width: 100%;
     text-align: right;
-    font-size: 1.5rem;
+    font-size: 1.7rem;
     border: 0;
     outline: 0;
 }
@@ -46,14 +46,14 @@ body{
     color: whitesmoke;
     width: 100%;
     text-align: right;
-    font-size: 2rem;
+    font-size: 3rem;
     border: 0;
     outline: 0;
 }
 
 .button-area{
     width: 100%;
-    height: 50vh;
+    height: 65vh;
     min-height: 15rem;
     background: white;
     padding: 2px;
