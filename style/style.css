@@ -2,11 +2,17 @@
 
 :root{
     --body-background: linear-gradient(to right bottom, #00AAFF, #00FF6C);
-    --display-background: #00342f;
+    --display-background: linear-gradient(to left bottom, #00342f, #007951);
     --button-color: #bffae3;
     --button-hover: #b9f5de;
-    --font-style: 'Poppins', sans-serif;
+    --button-font: 'Poppins', sans-serif;
 }
+@font-face {
+    font-family: displayFont;
+    src: url(fonts/tahoma.ttf);
+}
+
+
 *{
     box-sizing: border-box;
 }
@@ -28,16 +34,35 @@ body{
     max-width: 35rem;
 }
 .input-area{
+    position: relative;
     background: var(--display-background);
     padding: 0.5rem 0.5rem 1rem;
     border-top-right-radius: 10px;
+    z-index: 1;
 }
+.input-area::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(to left bottom, #007951, #00342f);
+    opacity: 0;
+    animation: displayAni 5s ease-in-out infinite;
+}
+@keyframes displayAni {
+    50%{opacity: 1;}
+}
+
 #topDisplay{
     background: transparent;
     color: #bffae3;
     width: 100%;
     text-align: right;
     font-size: 1.7rem;
+    font-family: displayFont, 'Tahoma', sans-serif;
     border: 0;
     outline: 0;
 }
@@ -47,6 +72,7 @@ body{
     width: 100%;
     text-align: right;
     font-size: 3rem;
+    font-family: displayFont, 'Tahoma', sans-serif;
     border: 0;
     outline: 0;
 }
@@ -64,7 +90,7 @@ body{
 .input-button{
     text-align: center;
     font-size: 1.5rem;
-    font-family: var(--font-style);
+    font-family: var(--button-font);
     background: var(--button-color);
     display: inline-flex;
     justify-content: center;
@@ -72,12 +98,13 @@ body{
     cursor: pointer;
     border: 1px solid white;
     border-radius: 5px;
+    user-select: none;
 }
 .input-button:hover{
     background: var(--button-hover);
 }
 #squareBut, #sqrtBut, #oneDivided{
-    font-family: 'Charm';
+    font-family: 'Charm', serif;
     font-weight: bold;
 }
 sup{
@@ -92,6 +119,8 @@ sub{
 
 
 .signature{
+    position: relative;
+    top: 20%;
     color: whitesmoke;
     background: linear-gradient(to right, red, blue);
     background-position-x: 0;

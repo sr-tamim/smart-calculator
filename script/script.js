@@ -7,6 +7,7 @@ const squareBut = document.querySelector('#squareBut');
 const sqrtBut = document.querySelector('#sqrtBut');
 const oneDividedBut = document.querySelector('#oneDivided');
 const percentBut = document.querySelector('#percentBut');
+const posNegToggler = document.querySelector('#posNegToggle');
 const equalBut = document.querySelector('#equalBut');
 const acBut = document.querySelector('#ac');
 const delBut = document.querySelector('#del');
@@ -26,15 +27,6 @@ function acFunc(){
     screen.value = '0';
     firstValue = null;
     secondValue = null;
-
-    dotBut.addEventListener('click', dotFunc);
-
-    operationBut.forEach(element => {
-        element.addEventListener('click', operation);
-    })
-    operationBut.forEach(element => {
-        element.removeEventListener('click', equalFunc);
-    })
 }
 
 delBut.addEventListener('click', () => {
@@ -43,12 +35,24 @@ delBut.addEventListener('click', () => {
 
 
 dotBut.addEventListener('click', dotFunc);
-function dotFunc(){
-    if(screen.value === '0'){screen.value='';}
-    clickedBut = event.target.innerText;
-    screen.value += clickedBut;
-    
-    dotBut.removeEventListener('click', dotFunc);
+function dotFunc(event){
+
+    let anyDot = null;
+
+    if(screen.value != ''){
+        for(let i = 0; i < screen.value.toString().length; i++){
+            k = screen.value.toString().slice(i, (i+1));
+            
+            if(k == '.'){anyDot = true;}
+        }
+        if(anyDot != true){
+            clickedBut = event.target.innerText;
+            screen.value += clickedBut;
+        }
+    }else {
+        clickedBut = event.target.innerText;
+        screen.value = '0' + clickedBut;
+        }
 }
 
 
@@ -60,13 +64,9 @@ numBut.forEach(element => {
 
 function numButFunc(event){
     if(screen.value === '0'){screen.value='';}
-    clickedBut = event.target.innerText;
-    screen.value += clickedBut;
-    
-    if(screen.value.length > 25){
-        numBut.forEach(element => {
-            element.removeEventListener('click', numButFunc);
-        })
+    if(screen.value.length < 20){
+        clickedBut = event.target.innerText;
+        screen.value += clickedBut;
     }
 }
 
@@ -76,24 +76,20 @@ operationBut.forEach(element => {
     element.addEventListener('click', operation);
 })
 function operation(event){
-    if(screen.value != ''){
+    if(screen.value != '' && topScreen.value == ''){
         firstValue = parseFloat(screen.value);
         operator = event.target.innerText;
         topScreen.value = screen.value + " " + event.target.innerText;
-        operationBut.forEach(element => {
-            element.removeEventListener('click', operation);
-        })
-        operationBut.forEach(element => {
-            element.addEventListener('click', equalFunc);
-        })
+
         screen.value = '';
 
-        dotBut.addEventListener('click', dotFunc);
 
-        numBut.forEach(element => {
-            element.addEventListener('click', numButFunc);
-        })
+    }else if(screen.value == '' && topScreen.value != ''){
+        operator = event.target.innerText;
+        topScreen.value = topScreen.value.slice(0, topScreen.value.length-1) + event.target.innerText;
+
     }
+
 }
 
 
@@ -103,6 +99,14 @@ squareBut.addEventListener('click', squareFunc);
 function squareFunc(){
     if(screen.value != ''){
         screen.value = Math.pow(parseFloat(screen.value), 2);
+        if(screen.value.toString().length > 18){
+            screen.value = (parseFloat(screen.value).toPrecision(16)).toString();
+        }
+
+        // clear the screen if any number button clicked
+        numBut.forEach(element => {
+            element.addEventListener('click', removeAns);
+        })
     }
 }
 
@@ -111,7 +115,19 @@ sqrtBut.addEventListener('click', sqrtFunc);
 
 function sqrtFunc(){
     if(screen.value != ''){
-        screen.value = Math.pow(parseFloat(screen.value), 0.5);
+        if(parseFloat(screen.value) >= 0){
+            screen.value = Math.pow(parseFloat(screen.value), 0.5);
+            if(screen.value.toString().length > 18){
+                screen.value = (parseFloat(screen.value).toPrecision(16)).toString();
+            }
+        }else {
+            screen.value = 'Invalid Input';
+        }
+
+        // Remove "Invalid Input" of screen when any number button clicked
+        numBut.forEach(element => {
+            element.addEventListener('click', removeAns);
+        })
     }
 }
 
@@ -119,8 +135,29 @@ function sqrtFunc(){
 oneDividedBut.addEventListener('click', () => {
     if(screen.value != ''){
         screen.value = (1 / parseFloat(screen.value));
+        if(screen.value.toString().length > 18){
+            screen.value = (parseFloat(screen.value).toPrecision(16)).toString();
+        }
+
+        // clear the screen if any number button clicked
+        numBut.forEach(element => {
+            element.addEventListener('click', removeAns);
+        })
     }
 })
+
+
+
+posNegToggler.addEventListener('click', () => {
+    if(screen.value != ''){
+        if(parseFloat(screen.value) < 0){
+            screen.value = screen.value.slice(1, screen.value.length);
+        } else if(parseFloat(screen.value) > 0){
+            screen.value = '-' + screen.value;
+        }
+    }
+})
+
 
 
 
@@ -138,13 +175,12 @@ function percentFunc(){
             screen.value = (firstValue * parseFloat(screen.value) * 0.01);
             topScreen.value = '';
             firstValue = '';
-            operationBut.forEach(element => {
-                element.addEventListener('click', operation);
-            })
-            operationBut.forEach(element => {
-                element.removeEventListener('click', equalFunc);
-            })
         }
+
+        // clear the screen if any number button clicked
+        numBut.forEach(element => {
+            element.addEventListener('click', removeAns);
+        })
     }
 }
 
@@ -170,32 +206,31 @@ function equalFunc(){
             calced = firstValue / secondValue;
         }
 
-        screen.value = calced;
+
+        if(calced.toString().length > 18){
+            calced = calced.toPrecision(15);
+        }
+
+        screen.value = calced.toString();
         topScreen.value = '';
         firstValue = '';
         secondValue = '';
-
-        dotBut.addEventListener('click', dotFunc);
-
-        operationBut.forEach(element => {
-            element.addEventListener('click', operation);
-        })
-        operationBut.forEach(element => {
-            element.removeEventListener('click', equalFunc);
-        })
 
 
         // clear answer when number button clicked
         numBut.forEach(element => {
             element.addEventListener('click', removeAns);
         })
-        function removeAns(event){
-            screen.value = '';
-            clickedBut = event.target.innerText;
-            screen.value += clickedBut;
-            numBut.forEach(element => {
-                element.removeEventListener('click', removeAns);
-            })
-        }
+        dotBut.addEventListener('click', removeAns);
     }
+}
+
+function removeAns(event){
+    screen.value = '';
+    clickedBut = event.target.innerText;
+    screen.value = clickedBut;
+    numBut.forEach(element => {
+        element.removeEventListener('click', removeAns);
+    })
+    dotBut.removeEventListener('click', removeAns);
 }
