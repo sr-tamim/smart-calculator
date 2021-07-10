@@ -22,7 +22,7 @@ var clickedBut = null, firstValue = null, secondValue = null, operator = null;
 
 acBut.addEventListener('click', acFunc);
 
-function acFunc(){
+function acFunc() {
     topScreen.value = '';
     screen.value = '0';
     firstValue = null;
@@ -30,29 +30,29 @@ function acFunc(){
 }
 
 delBut.addEventListener('click', () => {
-    screen.value = screen.value.slice(0, (screen.value.length-1));
+    screen.value = screen.value.slice(0, (screen.value.length - 1));
 })
 
 
 dotBut.addEventListener('click', dotFunc);
-function dotFunc(event){
+function dotFunc(event) {
 
     let anyDot = null;
 
-    if(screen.value != ''){
-        for(let i = 0; i < screen.value.toString().length; i++){
-            k = screen.value.toString().slice(i, (i+1));
-            
-            if(k == '.'){anyDot = true;}
+    if (screen.value != '') {
+        for (let i = 0; i < screen.value.toString().length; i++) {
+            k = screen.value.toString().slice(i, (i + 1));
+
+            if (k == '.') { anyDot = true; }
         }
-        if(anyDot != true){
+        if (anyDot != true) {
             clickedBut = event.target.innerText;
             screen.value += clickedBut;
         }
-    }else {
+    } else {
         clickedBut = event.target.innerText;
         screen.value = '0' + clickedBut;
-        }
+    }
 }
 
 
@@ -62,9 +62,9 @@ numBut.forEach(element => {
     element.addEventListener('click', numButFunc);
 })
 
-function numButFunc(event){
-    if(screen.value === '0'){screen.value='';}
-    if(screen.value.length < 20){
+function numButFunc(event) {
+    if (screen.value === '0') { screen.value = ''; }
+    if (screen.value.length < 20) {
         clickedBut = event.target.innerText;
         screen.value += clickedBut;
     }
@@ -75,8 +75,8 @@ function numButFunc(event){
 operationBut.forEach(element => {
     element.addEventListener('click', operation);
 })
-function operation(event){
-    if(screen.value != '' && topScreen.value == ''){
+function operation(event) {
+    if (screen.value != '' && topScreen.value == '') {
         firstValue = parseFloat(screen.value);
         operator = event.target.innerText;
         topScreen.value = screen.value + " " + event.target.innerText;
@@ -84,10 +84,17 @@ function operation(event){
         screen.value = '';
 
 
-    }else if(screen.value == '' && topScreen.value != ''){
+    } else if (screen.value == '' && topScreen.value != '') {
         operator = event.target.innerText;
-        topScreen.value = topScreen.value.slice(0, topScreen.value.length-1) + event.target.innerText;
+        topScreen.value = topScreen.value.slice(0, topScreen.value.length - 1) + event.target.innerText;
 
+    } else if (screen.value != '' && topScreen.value != '') {
+        equalFunc();
+        firstValue = parseFloat(screen.value);
+        operator = event.target.innerText;
+        topScreen.value = screen.value + " " + event.target.innerText;
+
+        screen.value = '';
     }
 
 }
@@ -96,10 +103,10 @@ function operation(event){
 
 squareBut.addEventListener('click', squareFunc);
 
-function squareFunc(){
-    if(screen.value != ''){
+function squareFunc() {
+    if (screen.value != '') {
         screen.value = Math.pow(parseFloat(screen.value), 2);
-        if(screen.value.toString().length > 18){
+        if (screen.value.toString().length > 18) {
             screen.value = (parseFloat(screen.value).toPrecision(16)).toString();
         }
 
@@ -113,14 +120,14 @@ function squareFunc(){
 
 sqrtBut.addEventListener('click', sqrtFunc);
 
-function sqrtFunc(){
-    if(screen.value != ''){
-        if(parseFloat(screen.value) >= 0){
+function sqrtFunc() {
+    if (screen.value != '') {
+        if (parseFloat(screen.value) >= 0) {
             screen.value = Math.pow(parseFloat(screen.value), 0.5);
-            if(screen.value.toString().length > 18){
+            if (screen.value.toString().length > 18) {
                 screen.value = (parseFloat(screen.value).toPrecision(16)).toString();
             }
-        }else {
+        } else {
             screen.value = 'Invalid Input';
         }
 
@@ -133,9 +140,9 @@ function sqrtFunc(){
 
 
 oneDividedBut.addEventListener('click', () => {
-    if(screen.value != ''){
+    if (screen.value != '') {
         screen.value = (1 / parseFloat(screen.value));
-        if(screen.value.toString().length > 18){
+        if (screen.value.toString().length > 18) {
             screen.value = (parseFloat(screen.value).toPrecision(16)).toString();
         }
 
@@ -149,10 +156,10 @@ oneDividedBut.addEventListener('click', () => {
 
 
 posNegToggler.addEventListener('click', () => {
-    if(screen.value != ''){
-        if(parseFloat(screen.value) < 0){
+    if (screen.value != '') {
+        if (parseFloat(screen.value) < 0) {
             screen.value = screen.value.slice(1, screen.value.length);
-        } else if(parseFloat(screen.value) > 0){
+        } else if (parseFloat(screen.value) > 0) {
             screen.value = '-' + screen.value;
         }
     }
@@ -167,11 +174,11 @@ posNegToggler.addEventListener('click', () => {
 
 percentBut.addEventListener('click', percentFunc);
 
-function percentFunc(){
-    if(screen.value!=''){
-        if(operator == '+' || operator == '−'){
+function percentFunc() {
+    if (screen.value != '') {
+        if (operator == '+' || operator == '−') {
             screen.value = (firstValue * parseFloat(screen.value) * 0.01);
-        } else{
+        } else {
             screen.value = (firstValue * parseFloat(screen.value) * 0.01);
             topScreen.value = '';
             firstValue = '';
@@ -190,28 +197,28 @@ function percentFunc(){
 
 equalBut.addEventListener('click', equalFunc);
 
-function equalFunc(){
-    if(screen.value != ''){
+function equalFunc() {
+    if (screen.value != '') {
         secondValue = parseFloat(screen.value);
 
         var calced = 0;
 
-        if(operator == '+'){
+        if (operator == '+') {
             calced = firstValue + secondValue;
-        } else if(operator == '−'){
+        } else if (operator == '−') {
             calced = firstValue - secondValue;
-        } else if(operator == '×'){
+        } else if (operator == '×') {
             calced = firstValue * secondValue;
-        } else if(operator == '÷'){
+        } else if (operator == '÷') {
             calced = firstValue / secondValue;
         }
 
 
-        if(calced.toString().length > 18){
+        if (calced.toString().length > 18) {
             calced = calced.toPrecision(15);
         }
 
-        screen.value = calced.toString();
+        screen.value = calced;
         topScreen.value = '';
         firstValue = '';
         secondValue = '';
@@ -225,7 +232,7 @@ function equalFunc(){
     }
 }
 
-function removeAns(event){
+function removeAns(event) {
     screen.value = '';
     clickedBut = event.target.innerText;
     screen.value = clickedBut;
