@@ -1,6 +1,6 @@
 const screen = document.getElementById('display');
 const topScreen = document.getElementById('topDisplay');
-const buttonValue = document.querySelectorAll('.input-button')
+const inputButtons = document.querySelectorAll('.input-button');
 const numBut = document.querySelectorAll('.numberButton');
 const operationBut = document.querySelectorAll('.operationBut');
 const squareBut = document.querySelector('#squareBut');
@@ -12,6 +12,18 @@ const equalBut = document.querySelector('#equalBut');
 const acBut = document.querySelector('#ac');
 const delBut = document.querySelector('#del');
 const dotBut = document.getElementById('dot');
+
+// add button animation on click
+inputButtons.forEach(element => {
+    element.addEventListener('click', () => {
+        element.classList.add('clicked');
+
+        setTimeout(() => {
+            element.classList.remove('clicked');
+        }, 600)
+    })
+})
+
 
 window.addEventListener('load', acFunc);
 
@@ -241,3 +253,36 @@ function removeAns(event) {
     })
     dotBut.removeEventListener('click', removeAns);
 }
+
+
+
+
+
+// add keyboard functionality
+document.addEventListener('keydown', event => {
+    console.log(event);
+    event.preventDefault();
+    if (event.key == "Enter") { equalFunc() }
+    else if (event.key == "Delete") { delBut.click() }
+    else if (event.key == "Backspace") { acFunc() }
+    else {
+        inputButtons.forEach(element => {
+            if (element.innerHTML == event.key) {
+                element.click();
+            } else if (event.key == "-") {
+                operationBut.forEach(element => {
+                    if (element.innerHTML == '−') { element.click() }
+                })
+            } else if (event.key == "*") {
+                operationBut.forEach(element => {
+                    if (element.innerHTML == '×') { element.click() }
+                })
+            } else if (event.key == "/") {
+                event.preventDefault();
+                operationBut.forEach(element => {
+                    if (element.innerHTML == '÷') { element.click() }
+                })
+            }
+        })
+    }
+})

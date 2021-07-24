@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Charm&display=swap');
 
 :root{
-    --body-background: linear-gradient(to right bottom, #00AAFF, #00FF6C);
-    --display-background: linear-gradient(to left bottom, #00342f, #007951);
-    --button-color: #bffae3;
-    --button-hover: #b9f5de;
+    --body-background: black;
+    --display-background: black;
+    --input-button-color: #444444;
+    --input-button-hover-color: #4d4d4d;
+    --number-button-color: #333333;
     --button-font: 'Poppins', sans-serif;
 }
 @font-face {
@@ -28,37 +29,20 @@ body{
     justify-content: center;
     align-items: center;
     padding: 1rem;
+    border: 5px dashed rgba(255, 255, 255, 0.2)
 }
 .calculator{
     min-width: 15rem;
     max-width: 35rem;
 }
 .input-area{
-    position: relative;
     background: var(--display-background);
     padding: 0.5rem 0.5rem 1rem;
-    border-top-right-radius: 10px;
-    z-index: 1;
-}
-.input-area::before{
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    background: linear-gradient(to left bottom, #007951, #00342f);
-    opacity: 0;
-    animation: displayAni 5s ease-in-out infinite;
-}
-@keyframes displayAni {
-    50%{opacity: 1;}
 }
 
 #topDisplay{
     background: transparent;
-    color: #bffae3;
+    color: rgba(255, 255, 255, 0.6);
     width: 100%;
     text-align: right;
     font-size: 1.7rem;
@@ -81,27 +65,44 @@ body{
     width: 100%;
     height: 65vh;
     min-height: 15rem;
-    background: white;
+    background: black;
     padding: 2px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    border-bottom-left-radius: 10px;
+    grid-gap: 1.5vh;
 }
 .input-button{
+    color: white;
     text-align: center;
     font-size: 1.5rem;
     font-family: var(--button-font);
-    background: var(--button-color);
+    background: var(--input-button-color);
+    position: relative;
     display: inline-flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    border: 1px solid white;
-    border-radius: 5px;
+    border-radius: 40px;
     user-select: none;
 }
 .input-button:hover{
-    background: var(--button-hover);
+    background: var(--input-button-hover-color);
+}
+.input-button.clicked{
+    animation: clickAnimation 200ms ease-out;
+}
+@keyframes clickAnimation {
+    35%{transform: scale(0.8);}
+    70%{transform: scale(1.1);}
+}
+.numberButton{
+    background: var(--number-button-color);
+}
+.operationBut{
+    background: rgb(255, 102, 0);
+}
+.operationBut:hover{
+    background: rgb(255, 81, 0);
 }
 #squareBut, #sqrtBut, #oneDivided{
     font-family: 'Charm', serif;
@@ -122,12 +123,12 @@ sub{
     position: relative;
     top: 20%;
     color: whitesmoke;
-    background: linear-gradient(to right, red, blue);
+    background: linear-gradient(to right, rgb(0, 255, 128), rgb(0, 183, 255));
     background-position-x: 0;
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 10px gray;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
     animation: signatureAni 5s infinite;
 }
 @keyframes signatureAni {
