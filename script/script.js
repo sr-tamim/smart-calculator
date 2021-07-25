@@ -1,3 +1,23 @@
+
+// white and dark theme function
+
+let savedTheme = (localStorage.getItem('themeDark') === 'true');
+if (savedTheme == null) { localStorage.setItem('themeDark', 'false') };
+let themeDark = false;
+document.getElementById('toggle').addEventListener('click', () => {
+    document.documentElement.classList.toggle('dark');
+    themeDark = !themeDark;
+    savedTheme = !savedTheme;
+    localStorage.setItem('themeDark', themeDark.toString());
+})
+if (savedTheme != themeDark) {
+    document.documentElement.classList.toggle('dark');
+    themeDark = !themeDark;
+}
+
+
+
+
 const screen = document.getElementById('display');
 const topScreen = document.getElementById('topDisplay');
 const inputButtons = document.querySelectorAll('.input-button');
