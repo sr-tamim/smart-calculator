@@ -280,7 +280,6 @@ function removeAns(event) {
 
 // add keyboard functionality
 document.addEventListener('keydown', event => {
-    console.log(event);
     event.preventDefault();
     if (event.key == "Enter") { equalFunc() }
     else if (event.key == "Delete") { delBut.click() }
