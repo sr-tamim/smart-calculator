@@ -69,6 +69,10 @@ body{
     align-items: center;
 }
 .toggler{
+    fill: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 20px;
     height: 20px;
     background: rgb(51, 51, 51);
@@ -77,6 +81,7 @@ body{
     transition: 500ms ease-in-out;
 }
 .dark .toggler{
+    fill: black;
     background: white;
     transform: translateX(30px);
 }
