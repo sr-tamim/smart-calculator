@@ -235,6 +235,11 @@ function percentFunc() {
     }
 }
 
+// get saved answer
+document.getElementById('ansBut').addEventListener('click', () => {
+    screen.value = localStorage.getItem('ans');
+})
+
 
 
 
@@ -273,6 +278,10 @@ function equalFunc() {
             element.addEventListener('click', removeAns);
         })
         dotBut.addEventListener('click', removeAns);
+
+
+        // save answer
+        localStorage.setItem('ans', calced);
     }
 }
 
