@@ -302,9 +302,9 @@ function removeAns(event) {
 // add keyboard functionality
 document.addEventListener('keydown', event => {
     event.preventDefault();
-    if (event.key == "Enter") { equalFunc() }
+    if (event.key == "Enter") { equalBut.click() }
     else if (event.key == "Delete") { delBut.click() }
-    else if (event.key == "Backspace") { acFunc() }
+    else if (event.key == "Backspace") { acBut.click() }
     else {
         inputButtons.forEach(element => {
             if (element.innerHTML == event.key) {
