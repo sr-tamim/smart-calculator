@@ -1,13 +1,13 @@
 // service worker file
 const staticCacheName = 'site-static-v2.0.0';
 const assets = [
-    '/',
-    '/index.html',
-    '/style/style.css',
-    '/script/script.js',
-    '/script/app.js',
-    '/img/favicon.png',
-    '/style/fonts/tahoma.ttf',
+    '/my-calc-v1',
+    'index.html',
+    'style/style.css',
+    'script/script.js',
+    'script/app.js',
+    'img/favicon.png',
+    'style/fonts/tahoma.ttf',
     'https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Charm&display=swap',
     'https://fonts.gstatic.com/s/charm/v5/7cHmv4oii5K0MdY8K-4E4Q.woff2',
     'https://fonts.gstatic.com/s/charm/v5/7cHmv4oii5K0MdYoK-4.woff2',
