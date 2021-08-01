@@ -1,7 +1,7 @@
 // service worker file
 const staticCacheName = 'site-static-v2.0.0';
 const assets = [
-    '/my-calc-v1',
+    '/my-calc-v1/',
     'index.html',
     'style/style.css',
     'script/script.js',
