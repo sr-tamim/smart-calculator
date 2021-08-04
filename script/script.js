@@ -11,7 +11,6 @@ if (localStorage.getItem('newUser') == null) {
 
 
 
-
 // white and dark theme function
 
 let savedTheme = (localStorage.getItem('themeDark') === 'true');
@@ -57,6 +56,9 @@ const equalBut = document.querySelector('#equalBut');
 const acBut = document.querySelector('#ac');
 const delBut = document.querySelector('#del');
 const dotBut = document.getElementById('dot');
+
+// how many numbers will not overflow the calculator screen
+var maxLettersCanShow = parseInt(screen.offsetWidth / 30) + 1;
 
 // add button animation on click
 inputButtons.forEach(element => {
@@ -121,7 +123,7 @@ numBut.forEach(element => {
 
 function numButFunc(event) {
     if (screen.value === '0') { screen.value = ''; }
-    if (screen.value.length < 20) {
+    if (screen.value.length < maxLettersCanShow) {
         clickedBut = event.target.innerText;
         screen.value += clickedBut;
     }
@@ -157,14 +159,13 @@ function operation(event) {
 }
 
 
-
 squareBut.addEventListener('click', squareFunc);
 
 function squareFunc() {
     if (screen.value != '') {
         screen.value = Math.pow(parseFloat(screen.value), 2);
-        if (screen.value.toString().length > 18) {
-            screen.value = (parseFloat(screen.value).toPrecision(16)).toString();
+        if (screen.value.toString().length > maxLettersCanShow) {
+            screen.value = (parseFloat(screen.value).toPrecision(maxLettersCanShow)).toString();
         }
 
         // clear the screen if any number button clicked
@@ -181,8 +182,8 @@ function sqrtFunc() {
     if (screen.value != '') {
         if (parseFloat(screen.value) >= 0) {
             screen.value = Math.pow(parseFloat(screen.value), 0.5);
-            if (screen.value.toString().length > 18) {
-                screen.value = (parseFloat(screen.value).toPrecision(16)).toString();
+            if (screen.value.toString().length > maxLettersCanShow) {
+                screen.value = (parseFloat(screen.value).toPrecision(maxLettersCanShow)).toString();
             }
         } else {
             screen.value = 'Invalid Input';
@@ -199,8 +200,8 @@ function sqrtFunc() {
 oneDividedBut.addEventListener('click', () => {
     if (screen.value != '') {
         screen.value = (1 / parseFloat(screen.value));
-        if (screen.value.toString().length > 18) {
-            screen.value = (parseFloat(screen.value).toPrecision(16)).toString();
+        if (screen.value.toString().length > maxLettersCanShow) {
+            screen.value = (parseFloat(screen.value).toPrecision(maxLettersCanShow)).toString();
         }
 
         // clear the screen if any number button clicked
@@ -281,8 +282,8 @@ function equalFunc() {
         }
 
 
-        if (calced.toString().length > 18) {
-            calced = calced.toPrecision(15);
+        if (calced.toString().length > maxLettersCanShow) {
+            calced = calced.toPrecision(maxLettersCanShow);
         }
 
         screen.value = calced;
