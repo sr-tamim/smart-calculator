@@ -146,11 +146,11 @@ body{
     background: var(--input-button-hover-color);
 }
 .input-button.clicked{
-    animation: clickAnimation 200ms ease-out;
+    animation: clickAnimation 100ms ease-out;
 }
 @keyframes clickAnimation {
-    35%{transform: scale(0.8);}
-    70%{transform: scale(1.1);}
+    50%{transform: scale(0.8);}
+    75%{transform: scale(1.1);}
 }
 .numberButton{
     background: var(--number-button-color);

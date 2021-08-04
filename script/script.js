@@ -1,4 +1,17 @@
 
+// little message for new users
+if (localStorage.getItem('newUser') == null) {
+    if (window.innerWidth > 768) {
+        window.alert('You can use your computer keyboard for giving input to this calculator');
+    } else {
+        window.alert('I guess you are new here. At last you are in the right place!')
+    }
+    localStorage.setItem('newUser', false);
+}
+
+
+
+
 // white and dark theme function
 
 let savedTheme = (localStorage.getItem('themeDark') === 'true');
@@ -52,7 +65,7 @@ inputButtons.forEach(element => {
 
         setTimeout(() => {
             element.classList.remove('clicked');
-        }, 600)
+        }, 100)
     })
 })
 
@@ -252,14 +265,19 @@ function equalFunc() {
 
         var calced = 0;
 
-        if (operator == '+') {
-            calced = firstValue + secondValue;
-        } else if (operator == '−') {
-            calced = firstValue - secondValue;
-        } else if (operator == '×') {
-            calced = firstValue * secondValue;
-        } else if (operator == '÷') {
-            calced = firstValue / secondValue;
+        switch (operator) {
+            case '+':
+                calced = firstValue + secondValue;
+                break;
+            case '−':
+                calced = firstValue - secondValue;
+                break;
+            case '×':
+                calced = firstValue * secondValue;
+                break;
+            case '÷':
+                calced = firstValue / secondValue;
+                break;
         }
 
 
@@ -302,27 +320,41 @@ function removeAns(event) {
 // add keyboard functionality
 document.addEventListener('keydown', event => {
     event.preventDefault();
-    if (event.key == "Enter") { equalBut.click() }
-    else if (event.key == "Delete") { delBut.click() }
-    else if (event.key == "Backspace") { acBut.click() }
-    else {
-        inputButtons.forEach(element => {
-            if (element.innerHTML == event.key) {
-                element.click();
-            } else if (event.key == "-") {
-                operationBut.forEach(element => {
-                    if (element.innerHTML == '−') { element.click() }
-                })
-            } else if (event.key == "*") {
-                operationBut.forEach(element => {
-                    if (element.innerHTML == '×') { element.click() }
-                })
-            } else if (event.key == "/") {
-                event.preventDefault();
-                operationBut.forEach(element => {
-                    if (element.innerHTML == '÷') { element.click() }
-                })
-            }
-        })
+
+    switch (event.key) {
+        case 'Enter':
+            equalBut.click();
+            break;
+        case 'Delete':
+            delBut.click();
+            break;
+        case 'Backspace':
+            acBut.click();
+            break;
+        default:
+            inputButtons.forEach(element => {
+                switch (event.key) {
+                    case '-':
+                        operationBut.forEach(element => {
+                            if (element.innerHTML == '−') { element.click() }
+                        });
+                        break;
+                    case '*':
+                        operationBut.forEach(element => {
+                            if (element.innerHTML == '×') { element.click() }
+                        });
+                        break;
+                    case '/':
+                        event.preventDefault();
+                        operationBut.forEach(element => {
+                            if (element.innerHTML == '÷') { element.click() }
+                        });
+                        break;
+                    case element.innerHTML:
+                        element.click();
+                        break;
+                }
+            })
     }
 })
+
