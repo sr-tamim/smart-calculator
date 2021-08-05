@@ -5,14 +5,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- webpage title -->
     <title>Smart Calculator</title>
 
+    <!-- stylesheet of the calculator -->
     <link rel="stylesheet" href="style/style.css">
 
+    <!-- icon of the webpage -->
     <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
-
-
-
 
     <!-- Primary Meta Tags -->
     <title>Smart Calculator</title>
@@ -36,16 +37,23 @@
 
 <body>
     <div class="container">
+
+        <!-- light and dark mode toggler -->
         <div class="theme">
             <div id="toggle" class="toggle">
                 <div class="toggler"></div>
             </div>
         </div>
+
+        <!-- calculator body -->
         <div class="calculator">
+            <!-- calculator display -->
             <div class="input-area">
                 <input type="text" id="topDisplay" readonly>
                 <input type="text" id="display" readonly>
             </div>
+
+            <!-- calculator buttons -->
             <div class="button-area">
                 <span id="percentBut" class="input-button">%</span>
                 <span id="squareBut" class="input-button">x<sup>2</sup></span>
@@ -73,15 +81,15 @@
                 <span id="equalBut" class="input-button">=</span>
             </div>
         </div>
+
+        <!-- signature of the maker of this calculator -->
         <h3 class="signature">Calculator made by SR TAMIM</h3>
     </div>
 
-
-
-
-
+    <!-- main javascript file of this calculator -->
     <script src="script/script.js"></script>
 
+    <!-- javascript file for service worker -->
     <script src="script/app.js"></script>
 </body>
 

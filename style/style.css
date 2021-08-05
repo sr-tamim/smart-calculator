@@ -2,7 +2,7 @@
 
 
 
-
+/* root styles */
 :root{
     --body-background: white;
     --display-background: transparent;
@@ -15,6 +15,7 @@
     --number-button-color: #dddddd;
     --button-font: 'Poppins', sans-serif;
 }
+/* style for dark mode */
 :root.dark{
     --body-background: black;
     --display-background: transparent;
@@ -27,6 +28,7 @@
     --number-button-color: #333333;
     --button-font: 'Poppins', sans-serif;
 }
+/* get tahoma font from .ttf file */
 @font-face {
     font-family: displayFont;
     src: url(fonts/tahoma.ttf);
@@ -38,7 +40,6 @@
 }
 body{
     background: var(--body-background);
-    transition: background 1s ease-in-out;
     margin: 0;
 }
 .container{
@@ -51,6 +52,7 @@ body{
     padding: 1rem;
 }
 
+/* light and dark mode toggler styles */
 .theme{
     width: 100%;
     min-width: 13rem;
@@ -78,7 +80,6 @@ body{
     background: rgb(51, 51, 51);
     position: absolute;
     border-radius: 50%;
-    transition: 500ms ease-in-out;
 }
 .dark .toggler{
     fill: black;
@@ -87,7 +88,7 @@ body{
 }
 
 
-
+/* calculator styles */
 .calculator{
     min-width: 15rem;
     max-width: 35rem;
@@ -97,6 +98,7 @@ body{
     padding: 0.5rem 0.5rem 1rem;
 }
 
+/* calculator display styles */
 #topDisplay{
     background: transparent;
     color: var(--topDisplay-font-color);
@@ -118,6 +120,7 @@ body{
     outline: 0;
 }
 
+/* calculator button styles */
 .button-area{
     width: 100%;
     height: 65vh;
@@ -176,6 +179,7 @@ sub{
 }
 
 
+/* signature of the maker of this calculator */
 .signature{
     position: relative;
     top: 20%;

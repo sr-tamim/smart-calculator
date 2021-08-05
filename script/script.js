@@ -17,6 +17,8 @@ let savedTheme = (localStorage.getItem('themeDark') === 'true');
 if (savedTheme == null) { localStorage.setItem('themeDark', 'false') };
 let themeDark = false;
 document.getElementById('toggle').addEventListener('click', () => {
+    document.body.style.transition = 'background 1s ease-in-out';
+    document.querySelector('.toggler').style.transition = '500ms ease-in-out';
     document.documentElement.classList.toggle('dark');
     themeDark = !themeDark;
     savedTheme = !savedTheme;
@@ -41,7 +43,7 @@ themeIcon();
 
 
 
-
+// select elements of the html file
 const screen = document.getElementById('display');
 const topScreen = document.getElementById('topDisplay');
 const inputButtons = document.querySelectorAll('.input-button');
@@ -71,16 +73,16 @@ inputButtons.forEach(element => {
     })
 })
 
-
+// clear all when reload
 window.addEventListener('load', acFunc);
 
+// defining some necessary variables
 var clickedBut = null, firstValue = null, secondValue = null, operator = null;
 
 
 
-
+// all clear function adding
 acBut.addEventListener('click', acFunc);
-
 function acFunc() {
     topScreen.value = '';
     screen.value = '0';
@@ -88,11 +90,12 @@ function acFunc() {
     secondValue = null;
 }
 
+// delete button function adding
 delBut.addEventListener('click', () => {
     screen.value = screen.value.slice(0, (screen.value.length - 1));
 })
 
-
+// dot(.) button function adding
 dotBut.addEventListener('click', dotFunc);
 function dotFunc(event) {
 
@@ -114,9 +117,7 @@ function dotFunc(event) {
     }
 }
 
-
-
-
+// function of all number buttons
 numBut.forEach(element => {
     element.addEventListener('click', numButFunc);
 })
@@ -130,7 +131,7 @@ function numButFunc(event) {
 }
 
 
-
+// function for four [+, -, *, /] operation
 operationBut.forEach(element => {
     element.addEventListener('click', operation);
 })
@@ -158,9 +159,8 @@ function operation(event) {
 
 }
 
-
+// function for square ^(2) button
 squareBut.addEventListener('click', squareFunc);
-
 function squareFunc() {
     if (screen.value != '') {
         screen.value = Math.pow(parseFloat(screen.value), 2);
@@ -175,9 +175,8 @@ function squareFunc() {
     }
 }
 
-
+// square root(√) function adding
 sqrtBut.addEventListener('click', sqrtFunc);
-
 function sqrtFunc() {
     if (screen.value != '') {
         if (parseFloat(screen.value) >= 0) {
@@ -196,7 +195,7 @@ function sqrtFunc() {
     }
 }
 
-
+// function for 1 dividing by a number
 oneDividedBut.addEventListener('click', () => {
     if (screen.value != '') {
         screen.value = (1 / parseFloat(screen.value));
@@ -211,8 +210,7 @@ oneDividedBut.addEventListener('click', () => {
     }
 })
 
-
-
+// change the number to positive or negative
 posNegToggler.addEventListener('click', () => {
     if (screen.value != '') {
         if (parseFloat(screen.value) < 0) {
@@ -224,14 +222,8 @@ posNegToggler.addEventListener('click', () => {
 })
 
 
-
-
-
-
-
-
+// percentage (%) button function
 percentBut.addEventListener('click', percentFunc);
-
 function percentFunc() {
     if (screen.value != '') {
         if (operator == '+' || operator == '−') {
@@ -249,15 +241,14 @@ function percentFunc() {
     }
 }
 
+
 // get saved answer
 document.getElementById('ansBut').addEventListener('click', () => {
     screen.value = localStorage.getItem('ans');
 })
 
 
-
-
-
+// calculation (=) button function
 equalBut.addEventListener('click', equalFunc);
 
 function equalFunc() {
@@ -282,6 +273,7 @@ function equalFunc() {
         }
 
 
+        // prevent answer from overflowing the display
         if (calced.toString().length > maxLettersCanShow) {
             calced = calced.toPrecision(maxLettersCanShow);
         }
@@ -304,6 +296,7 @@ function equalFunc() {
     }
 }
 
+// remove the answer when any number button clicked
 function removeAns(event) {
     screen.value = '';
     clickedBut = event.target.innerText;
@@ -315,10 +308,7 @@ function removeAns(event) {
 }
 
 
-
-
-
-// add keyboard functionality
+// add keyboard functionality for computers
 document.addEventListener('keydown', event => {
     event.preventDefault();
 
@@ -358,4 +348,3 @@ document.addEventListener('keydown', event => {
             })
     }
 })
-
