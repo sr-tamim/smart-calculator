@@ -145,15 +145,19 @@ body{
     border-radius: 40px;
     user-select: none;
 }
-.input-button:hover{
-    background: var(--input-button-hover-color);
+@media screen and (min-width: 768px) {
+    .input-button:hover{
+        background: var(--input-button-hover-color);
+    }
 }
 .input-button.clicked{
     animation: clickAnimation 100ms ease-out;
 }
 @keyframes clickAnimation {
-    50%{transform: scale(0.8);}
-    75%{transform: scale(1.1);}
+    0%{transform: scale3d(0.6,0.6,0.6);}
+    40%{transform: scale3d(1.2,1.2,1.2);}
+    80%{transform: scale3d(.9,.9,.9);}
+    100%{transform: scaleX(1);}
 }
 .numberButton{
     background: var(--number-button-color);
