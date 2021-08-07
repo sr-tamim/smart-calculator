@@ -159,9 +159,8 @@ body{
     animation: clickAnimation 100ms ease-out;
 }
 @keyframes clickAnimation {
-    0%{transform: scale3d(0.6,0.6,0.6);}
+    0%{transform: scale3d(.9,.9,.9);}
     40%{transform: scale3d(1.2,1.2,1.2);}
-    80%{transform: scale3d(.9,.9,.9);}
     100%{transform: scaleX(1);}
 }
 .numberButton{
