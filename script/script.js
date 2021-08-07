@@ -60,16 +60,15 @@ const delBut = document.querySelector('#del');
 const dotBut = document.getElementById('dot');
 
 // how many numbers will not overflow the calculator screen
-var maxLettersCanShow = parseInt(screen.offsetWidth / 30) + 1;
+var maxLettersCanShow = parseInt(screen.offsetWidth / 30);
 
 // add button animation on click
 inputButtons.forEach(element => {
-    element.addEventListener('click', () => {
+    element.addEventListener('mousedown', () => {
         element.classList.add('clicked');
-
-        setTimeout(() => {
-            element.classList.remove('clicked');
-        }, 100)
+    })
+    element.addEventListener('mouseup', () => {
+        element.classList.remove('clicked');
     })
 })
 
@@ -137,7 +136,7 @@ operationBut.forEach(element => {
 })
 function operation(event) {
     if (screen.value != '' && topScreen.value == '') {
-        firstValue = parseFloat(screen.value);
+        firstValue = Number(screen.value);
         operator = event.target.innerText;
         topScreen.value = screen.value + " " + event.target.innerText;
 
@@ -150,7 +149,7 @@ function operation(event) {
 
     } else if (screen.value != '' && topScreen.value != '') {
         equalFunc();
-        firstValue = parseFloat(screen.value);
+        firstValue = Number(screen.value);
         operator = event.target.innerText;
         topScreen.value = screen.value + " " + event.target.innerText;
 
@@ -163,10 +162,10 @@ function operation(event) {
 squareBut.addEventListener('click', squareFunc);
 function squareFunc() {
     if (screen.value != '') {
-        screen.value = Math.pow(parseFloat(screen.value), 2);
-        if (screen.value.toString().length > maxLettersCanShow) {
-            screen.value = (parseFloat(screen.value).toPrecision(maxLettersCanShow)).toString();
-        }
+        screen.value = preventOverflow(Math.pow(Number(screen.value), 2));
+
+        // save answer
+        localStorage.setItem('ans', calced);
 
         // clear the screen if any number button clicked
         numBut.forEach(element => {
@@ -179,14 +178,14 @@ function squareFunc() {
 sqrtBut.addEventListener('click', sqrtFunc);
 function sqrtFunc() {
     if (screen.value != '') {
-        if (parseFloat(screen.value) >= 0) {
-            screen.value = Math.pow(parseFloat(screen.value), 0.5);
-            if (screen.value.toString().length > maxLettersCanShow) {
-                screen.value = (parseFloat(screen.value).toPrecision(maxLettersCanShow)).toString();
-            }
+        if (Number(screen.value) >= 0) {
+            screen.value = preventOverflow(Math.pow(Number(screen.value), 0.5));
         } else {
             screen.value = 'Invalid Input';
         }
+
+        // save answer
+        localStorage.setItem('ans', calced);
 
         // Remove "Invalid Input" of screen when any number button clicked
         numBut.forEach(element => {
@@ -198,10 +197,8 @@ function sqrtFunc() {
 // function for 1 dividing by a number
 oneDividedBut.addEventListener('click', () => {
     if (screen.value != '') {
-        screen.value = (1 / parseFloat(screen.value));
-        if (screen.value.toString().length > maxLettersCanShow) {
-            screen.value = (parseFloat(screen.value).toPrecision(maxLettersCanShow)).toString();
-        }
+
+        screen.value = preventOverflow(1 / Number(screen.value));
 
         // clear the screen if any number button clicked
         numBut.forEach(element => {
@@ -213,9 +210,9 @@ oneDividedBut.addEventListener('click', () => {
 // change the number to positive or negative
 posNegToggler.addEventListener('click', () => {
     if (screen.value != '') {
-        if (parseFloat(screen.value) < 0) {
+        if (Number(screen.value) < 0) {
             screen.value = screen.value.slice(1, screen.value.length);
-        } else if (parseFloat(screen.value) > 0) {
+        } else if (Number(screen.value) > 0) {
             screen.value = '-' + screen.value;
         }
     }
@@ -227,9 +224,9 @@ percentBut.addEventListener('click', percentFunc);
 function percentFunc() {
     if (screen.value != '') {
         if (operator == '+' || operator == '−') {
-            screen.value = (firstValue * parseFloat(screen.value) * 0.01);
+            screen.value = (firstValue * Number(screen.value) * 0.01);
         } else {
-            screen.value = (firstValue * parseFloat(screen.value) * 0.01);
+            screen.value = (firstValue * Number(screen.value) * 0.01);
             topScreen.value = '';
             firstValue = '';
         }
@@ -253,7 +250,7 @@ equalBut.addEventListener('click', equalFunc);
 
 function equalFunc() {
     if (screen.value != '') {
-        secondValue = parseFloat(screen.value);
+        secondValue = Number(screen.value);
 
         var calced = 0;
 
@@ -274,11 +271,8 @@ function equalFunc() {
 
 
         // prevent answer from overflowing the display
-        if (calced.toString().length > maxLettersCanShow) {
-            calced = calced.toPrecision(maxLettersCanShow);
-        }
+        screen.value = preventOverflow(calced);
 
-        screen.value = calced;
         topScreen.value = '';
         firstValue = '';
         secondValue = '';
@@ -294,6 +288,16 @@ function equalFunc() {
         // save answer
         localStorage.setItem('ans', calced);
     }
+}
+
+// prevent numbers from overflowing the calculator screen
+function preventOverflow(answer) {
+    let i = answer.toString().length;
+    while (answer.toString().length > maxLettersCanShow) {
+        answer = Number(answer).toExponential(i);
+        i--;
+    }
+    return answer;
 }
 
 // remove the answer when any number button clicked
