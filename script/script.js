@@ -64,11 +64,12 @@ var maxLettersCanShow = parseInt(screen.offsetWidth / 30);
 
 // add button animation on click
 inputButtons.forEach(element => {
-    element.addEventListener('mousedown', () => {
+    element.addEventListener('click', () => {
         element.classList.add('clicked');
-    })
-    element.addEventListener('mouseup', () => {
-        element.classList.remove('clicked');
+
+        setTimeout(() => {
+            element.classList.remove('clicked');
+        }, 100)
     })
 })
 

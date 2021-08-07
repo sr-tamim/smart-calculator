@@ -149,7 +149,6 @@ body{
     cursor: pointer;
     border-radius: 40px;
     user-select: none;
-    transition-timing-function: ease-out;
 }
 @media screen and (min-width: 768px) {
     .input-button:hover{
@@ -157,7 +156,13 @@ body{
     }
 }
 .input-button.clicked{
-    transform: scale(1.1);
+    animation: clickAnimation 100ms ease-out;
+}
+@keyframes clickAnimation {
+    0%{transform: scale3d(0.6,0.6,0.6);}
+    40%{transform: scale3d(1.2,1.2,1.2);}
+    80%{transform: scale3d(.9,.9,.9);}
+    100%{transform: scaleX(1);}
 }
 .numberButton{
     background: var(--number-button-color);
