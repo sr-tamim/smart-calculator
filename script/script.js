@@ -254,6 +254,22 @@ function equalFunc() {
     if (screen.value != '') {
         secondValue = Number(screen.value);
 
+        var splitted;
+        for (let part of firstValue.toString()) {
+            if (part == '.') {
+                splitted = firstValue.toString().split('.');
+                firstValue = firstValue * Math.pow(10, splitted[1].length);
+                secondValue = secondValue * Math.pow(10, splitted[1].length);
+            }
+        }
+        for (let part of secondValue.toString()) {
+            if (part == '.') {
+                splitted = secondValue.toString().split('.');
+                firstValue = firstValue * Math.pow(10, splitted[1].length);
+                secondValue = secondValue * Math.pow(10, splitted[1].length);
+            }
+        }
+
         var calced = 0;
 
         switch (operator) {
@@ -271,6 +287,9 @@ function equalFunc() {
                 break;
         }
 
+        if (typeof splitted != 'undefined') {
+            calced = calced / Math.pow(10, splitted[1].length);
+        }
 
         // prevent answer from overflowing the display
         screen.value = preventOverflow(calced);
