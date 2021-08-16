@@ -98,23 +98,11 @@ delBut.addEventListener('click', () => {
 
 // dot(.) button function adding
 dotBut.addEventListener('click', dotFunc);
-function dotFunc(event) {
-
-    let anyDot = null;
-
-    if (screen.value != '') {
-        for (let i = 0; i < screen.value.toString().length; i++) {
-            k = screen.value.toString().slice(i, (i + 1));
-
-            if (k == '.') { anyDot = true; }
-        }
-        if (anyDot != true) {
-            clickedBut = event.target.innerText;
-            screen.value += clickedBut;
-        }
-    } else {
-        clickedBut = event.target.innerText;
-        screen.value = '0' + clickedBut;
+function dotFunc() {
+    if (screen.value.toString().indexOf('.') == -1) {
+        if (screen.value == '' || screen.value == '0') {
+            screen.value = '0' + '.';
+        } else { screen.value += '.' }
     }
 }
 

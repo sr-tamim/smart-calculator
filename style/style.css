@@ -40,6 +40,7 @@
 html{ font-size: 16px;}
 *{
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 body{
     background: var(--body-background);
