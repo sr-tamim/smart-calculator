@@ -303,7 +303,7 @@ function equalFunc() {
 function preventOverflow(answer) {
     let i = answer.toString().length;
     while (answer.toString().length > maxLettersCanShow) {
-        answer = Number(answer).toExponential(i);
+        answer = Number(answer).toPrecision(i);
         i--;
     }
     return answer;
