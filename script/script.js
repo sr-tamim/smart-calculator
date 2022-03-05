@@ -48,7 +48,7 @@ const screen = document.getElementById('display');
 const topScreen = document.getElementById('topDisplay');
 const inputButtons = document.querySelectorAll('.input-button');
 const numBut = document.querySelectorAll('.numberButton');
-const operationBut = document.querySelectorAll('.operationBut');
+const operationBut = document.querySelectorAll('[data-operation]');
 const squareBut = document.querySelector('#squareBut');
 const sqrtBut = document.querySelector('#sqrtBut');
 const oneDividedBut = document.querySelector('#oneDivided');
@@ -127,25 +127,21 @@ operationBut.forEach(element => {
 function operation(event) {
     if (screen.value != '' && topScreen.value == '') {
         firstValue = Number(screen.value);
-        operator = event.target.innerText;
+        operator = event.target.dataset.operation;
         topScreen.value = screen.value + " " + event.target.innerText;
-
-        screen.value = '';
-
-
-    } else if (screen.value == '' && topScreen.value != '') {
-        operator = event.target.innerText;
-        topScreen.value = topScreen.value.slice(0, topScreen.value.length - 1) + event.target.innerText;
-
-    } else if (screen.value != '' && topScreen.value != '') {
-        equalFunc();
-        firstValue = Number(screen.value);
-        operator = event.target.innerText;
-        topScreen.value = screen.value + " " + event.target.innerText;
-
         screen.value = '';
     }
-
+    else if (screen.value == '' && topScreen.value != '') {
+        operator = event.target.dataset.operation;
+        topScreen.value = topScreen.value.slice(0, topScreen.value.length - 1) + event.target.innerText;
+    }
+    else if (screen.value != '' && topScreen.value != '') {
+        equalFunc();
+        firstValue = Number(screen.value);
+        operator = event.target.dataset.operation;
+        topScreen.value = screen.value + " " + event.target.innerText;
+        screen.value = '';
+    }
 }
 
 // function for square ^(2) button
@@ -214,7 +210,7 @@ posNegToggler.addEventListener('click', () => {
 percentBut.addEventListener('click', percentFunc);
 function percentFunc() {
     if (screen.value != '') {
-        if (operator == '+' || operator == '−') {
+        if (operator == '+' || operator == '-') {
             screen.value = (firstValue * Number(screen.value) * 0.01);
         } else {
             screen.value = (firstValue * Number(screen.value) * 0.01);
@@ -244,38 +240,52 @@ function saveAnsToLocaleStorage(answer) {
 equalBut.addEventListener('click', equalFunc);
 
 function equalFunc() {
-    if (screen.value != '') {
+    if (screen.value && firstValue) {
         secondValue = Number(screen.value);
-
-        let fractionalPartLength = 0;
-        if (firstValue.toString().includes('.')) {
-            fractionalPartLength = firstValue.toString().split('.')[1].length;
-            firstValue = firstValue * Math.pow(10, fractionalPartLength);
-            secondValue = secondValue * Math.pow(10, fractionalPartLength);
-        }
-        if (secondValue.toString().includes('.')) {
-            fractionalPartLength = secondValue.toString().split('.')[1].length;
-            firstValue = firstValue * Math.pow(10, fractionalPartLength);
-            secondValue = secondValue * Math.pow(10, fractionalPartLength);
-        }
 
         let result = 0;
 
-        switch (operator) {
-            case '+':
-                result = firstValue + secondValue / Math.pow(10, fractionalPartLength);
-                break;
-            case '−':
-                result = firstValue - secondValue / Math.pow(10, fractionalPartLength);
-                break;
-            case '×':
-                result = firstValue * secondValue / Math.pow(10, fractionalPartLength + fractionalPartLength);
-                break;
-            case '÷':
-                result = firstValue / secondValue;
-                break;
-        }
+        if (operator === '+' || operator === '-') {
+            const [value1, value2] = [firstValue.toString(), secondValue.toString()]
+            if (value1.includes('.') || value2.includes('.')) {
+                const splittedValues = [value1.split('.'), value2.split('.')]
+                const nonFractionalParts = splittedValues.map(value => Number(value[0]));
+                const nonFractionalResult = operator === '+' ?
+                    nonFractionalParts.reduce((a, b) => a + b, 0)
+                    : nonFractionalParts[0] - nonFractionalParts[1];
 
+                const fractionalParts = splittedValues.map(value => value[1] ? Number(value[1]) : '0');
+                const fractionalResult = operator === '+' ?
+                    fractionalParts.reduce((a, b) => a + b, 0)
+                    : fractionalParts[0] - fractionalParts[1];
+                const largestFractionLength = Math.max(...fractionalParts.map(x => x.toString().length));
+
+
+                result = nonFractionalResult + (fractionalResult / Math.pow(10, largestFractionLength));
+            } else {
+                result = operator === '+' ? firstValue + secondValue :
+                    firstValue - secondValue
+            }
+        }
+        else if (operator === '*') {
+            const [value1, value2] = [firstValue.toString(), secondValue.toString()]
+            if (value1.includes('.') || value2.includes('.')) {
+
+                let fractionalPartLength = (value1.includes('.') && value2.includes('.')) ?
+                    (value1.split('.')[1].length > value2.split('.')[1].length) ?
+                        value1.split('.')[1].length : value2.split('.')[1].length
+                    : value1.includes('.') ? value1.split('.')[1].length
+                        : value2.split('.')[1].length;
+
+                result = ((firstValue * Math.pow(10, fractionalPartLength)) *
+                    (secondValue * Math.pow(10, fractionalPartLength))) /
+                    Math.pow(10, fractionalPartLength + fractionalPartLength);
+            } else {
+                result = firstValue * secondValue;
+            }
+        } else if (operator === '/') {
+            result = firstValue / secondValue;
+        }
 
         // prevent answer from overflowing the display
         screen.value = preventOverflow(result);
@@ -283,7 +293,6 @@ function equalFunc() {
         topScreen.value = '';
         firstValue = '';
         secondValue = '';
-
 
         // clear answer when number button clicked
         numBut.forEach(element => {
