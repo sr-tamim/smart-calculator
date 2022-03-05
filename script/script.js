@@ -61,7 +61,7 @@ const dotBut = document.getElementById('dot');
 const answerBut = document.getElementById('ansBut');
 
 // how many numbers will not overflow the calculator screen
-var maxLettersCanShow = parseInt(screen.offsetWidth / 30);
+const maxLettersCanShow = parseInt(screen.offsetWidth / 35);
 
 // add button animation on click
 inputButtons.forEach(element => {
@@ -78,7 +78,7 @@ inputButtons.forEach(element => {
 window.addEventListener('load', acFunc);
 
 // defining some necessary variables
-var clickedBut = null, firstValue = null, secondValue = null, operator = null;
+let clickedBut = null, firstValue = null, secondValue = null, operator = null;
 
 
 
@@ -155,7 +155,7 @@ function squareFunc() {
         screen.value = preventOverflow(Math.pow(Number(screen.value), 2));
 
         // save answer
-        localStorage.setItem('ans', calced);
+        saveAnsToLocaleStorage(screen.value)
 
         // clear the screen if any number button clicked
         numBut.forEach(element => {
@@ -167,27 +167,29 @@ function squareFunc() {
 // square root(√) function adding
 sqrtBut.addEventListener('click', sqrtFunc);
 function sqrtFunc() {
-    if (screen.value != '') {
-        if (Number(screen.value) >= 0) {
-            screen.value = preventOverflow(Math.pow(Number(screen.value), 0.5));
-        } else {
-            screen.value = 'Invalid Input';
-        }
+    if (!screen.value) return
+
+    if (Number(screen.value) >= 0) {
+        screen.value = preventOverflow(Math.pow(Number(screen.value), 0.5));
 
         // save answer
-        localStorage.setItem('ans', calced);
-
-        // Remove "Invalid Input" of screen when any number button clicked
-        numBut.forEach(element => {
-            element.addEventListener('click', removeAns);
-        })
+        saveAnsToLocaleStorage(screen.value);
+    } else {
+        screen.value = 'Invalid Input';
     }
+
+    // Remove "Invalid Input" of screen when any number button clicked
+    numBut.forEach(element => {
+        element.addEventListener('click', removeAns);
+    })
+
 }
 
 // function for 1 dividing by a number
 oneDividedBut.addEventListener('click', () => {
     if (screen.value != '') {
         screen.value = preventOverflow(1 / Number(screen.value));
+        saveAnsToLocaleStorage(screen.value)
 
         // clear the screen if any number button clicked
         numBut.forEach(element => {
@@ -230,8 +232,12 @@ function percentFunc() {
 
 // get saved answer
 answerBut.addEventListener('click', () => {
-    screen.value = localStorage.getItem('ans');
+    screen.value = JSON.parse(localStorage.getItem('smart-calc-SRT'))?.answer || 0;
 })
+// save answer to localstorage
+function saveAnsToLocaleStorage(answer) {
+    localStorage.setItem('smart-calc-SRT', JSON.stringify({ answer: Number(answer) }))
+}
 
 
 // calculation (=) button function
@@ -241,41 +247,38 @@ function equalFunc() {
     if (screen.value != '') {
         secondValue = Number(screen.value);
 
-        let splitted;
+        let fractionalPartLength = 0;
         if (firstValue.toString().includes('.')) {
-            splitted = firstValue.toString().split('.');
-            firstValue = firstValue * Math.pow(10, splitted[1].length);
-            secondValue = secondValue * Math.pow(10, splitted[1].length);
+            fractionalPartLength = firstValue.toString().split('.')[1].length;
+            firstValue = firstValue * Math.pow(10, fractionalPartLength);
+            secondValue = secondValue * Math.pow(10, fractionalPartLength);
         }
         if (secondValue.toString().includes('.')) {
-            splitted = secondValue.toString().split('.');
-            firstValue = firstValue * Math.pow(10, splitted[1].length);
-            secondValue = secondValue * Math.pow(10, splitted[1].length);
+            fractionalPartLength = secondValue.toString().split('.')[1].length;
+            firstValue = firstValue * Math.pow(10, fractionalPartLength);
+            secondValue = secondValue * Math.pow(10, fractionalPartLength);
         }
 
-        let calced = 0;
+        let result = 0;
 
         switch (operator) {
             case '+':
-                calced = firstValue + secondValue;
+                result = firstValue + secondValue / Math.pow(10, fractionalPartLength);
                 break;
             case '−':
-                calced = firstValue - secondValue;
+                result = firstValue - secondValue / Math.pow(10, fractionalPartLength);
                 break;
             case '×':
-                calced = firstValue * secondValue;
+                result = firstValue * secondValue / Math.pow(10, fractionalPartLength + fractionalPartLength);
                 break;
             case '÷':
-                calced = firstValue / secondValue;
+                result = firstValue / secondValue;
                 break;
         }
 
-        if (typeof splitted != 'undefined') {
-            calced = calced / Math.pow(10, splitted[1].length);
-        }
 
         // prevent answer from overflowing the display
-        screen.value = preventOverflow(calced);
+        screen.value = preventOverflow(result);
 
         topScreen.value = '';
         firstValue = '';
@@ -288,20 +291,14 @@ function equalFunc() {
         })
         dotBut.addEventListener('click', removeAns);
 
-
         // save answer
-        localStorage.setItem('ans', calced);
+        saveAnsToLocaleStorage(result)
     }
 }
 
 // prevent numbers from overflowing the calculator screen
 function preventOverflow(answer) {
-    let i = answer.toString().length;
-    while (answer.toString().length > maxLettersCanShow) {
-        answer = Number(answer).toPrecision(i);
-        i--;
-    }
-    return answer;
+    return answer.toString().length > maxLettersCanShow ? Number(answer).toPrecision(maxLettersCanShow) : answer;
 }
 
 // remove the answer when any number button clicked
