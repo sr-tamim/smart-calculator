@@ -339,29 +339,23 @@ document.addEventListener('keydown', event => {
         case 'ArrowUp':
             answerBut.click();
             break;
+        case '-':
+            operationBut.forEach(element => {
+                if (element.innerHTML == '−') { element.click() }
+            });
+            break;
+        case '*':
+            operationBut.forEach(element => {
+                if (element.innerHTML == '×') { element.click() }
+            });
+            break;
+        case '/':
+            event.preventDefault();
+            operationBut.forEach(element => {
+                if (element.innerHTML == '÷') { element.click() }
+            });
+            break;
         default:
-            inputButtons.forEach(element => {
-                switch (event.key) {
-                    case '-':
-                        operationBut.forEach(element => {
-                            if (element.innerHTML == '−') { element.click() }
-                        });
-                        break;
-                    case '*':
-                        operationBut.forEach(element => {
-                            if (element.innerHTML == '×') { element.click() }
-                        });
-                        break;
-                    case '/':
-                        event.preventDefault();
-                        operationBut.forEach(element => {
-                            if (element.innerHTML == '÷') { element.click() }
-                        });
-                        break;
-                    case element.innerHTML:
-                        element.click();
-                        break;
-                }
-            })
+            inputButtons.forEach(element => event.key === element.innerText && element.click())
     }
 })
