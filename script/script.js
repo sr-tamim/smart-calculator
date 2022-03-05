@@ -187,7 +187,6 @@ function sqrtFunc() {
 // function for 1 dividing by a number
 oneDividedBut.addEventListener('click', () => {
     if (screen.value != '') {
-
         screen.value = preventOverflow(1 / Number(screen.value));
 
         // clear the screen if any number button clicked
@@ -242,23 +241,19 @@ function equalFunc() {
     if (screen.value != '') {
         secondValue = Number(screen.value);
 
-        var splitted;
-        for (let part of firstValue.toString()) {
-            if (part == '.') {
-                splitted = firstValue.toString().split('.');
-                firstValue = firstValue * Math.pow(10, splitted[1].length);
-                secondValue = secondValue * Math.pow(10, splitted[1].length);
-            }
+        let splitted;
+        if (firstValue.toString().includes('.')) {
+            splitted = firstValue.toString().split('.');
+            firstValue = firstValue * Math.pow(10, splitted[1].length);
+            secondValue = secondValue * Math.pow(10, splitted[1].length);
         }
-        for (let part of secondValue.toString()) {
-            if (part == '.') {
-                splitted = secondValue.toString().split('.');
-                firstValue = firstValue * Math.pow(10, splitted[1].length);
-                secondValue = secondValue * Math.pow(10, splitted[1].length);
-            }
+        if (secondValue.toString().includes('.')) {
+            splitted = secondValue.toString().split('.');
+            firstValue = firstValue * Math.pow(10, splitted[1].length);
+            secondValue = secondValue * Math.pow(10, splitted[1].length);
         }
 
-        var calced = 0;
+        let calced = 0;
 
         switch (operator) {
             case '+':
