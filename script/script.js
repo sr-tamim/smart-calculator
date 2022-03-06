@@ -254,12 +254,11 @@ function equalFunc() {
                     nonFractionalParts.reduce((a, b) => a + b, 0)
                     : nonFractionalParts[0] - nonFractionalParts[1];
 
-                const fractionalParts = splittedValues.map(value => value[1] ? Number(value[1]) : '0');
+                const fractionalParts = splittedValues.map(value => value[1] ? Number(value[1]) : 0);
                 const fractionalResult = operator === '+' ?
                     fractionalParts.reduce((a, b) => a + b, 0)
                     : fractionalParts[0] - fractionalParts[1];
                 const largestFractionLength = Math.max(...fractionalParts.map(x => x.toString().length));
-
 
                 result = nonFractionalResult + (fractionalResult / Math.pow(10, largestFractionLength));
             } else {
@@ -268,9 +267,9 @@ function equalFunc() {
             }
         }
         else if (operator === '*') {
-            const [value1, value2] = [firstValue.toString(), secondValue.toString()]
-            if (value1.includes('.') || value2.includes('.')) {
+            const [value1, value2] = [firstValue.toString(), secondValue.toString()];
 
+            if (value1.includes('.') || value2.includes('.')) {
                 let fractionalPartLength = (value1.includes('.') && value2.includes('.')) ?
                     (value1.split('.')[1].length > value2.split('.')[1].length) ?
                         value1.split('.')[1].length : value2.split('.')[1].length
