@@ -250,8 +250,7 @@ function equalFunc() {
         let result = 0;
 
         /* --- This part has been commented just because javascript is not so good at math
-        javascript calculates 0.1 + 0.2 and returns 0.30000000000000004
-        to solve this javascript calculation problem I've used mathjs library --- */
+        javascript calculates 0.1 + 0.2 and returns 0.30000000000000004 --- */
         /*
         switch(operator){
             case '+':
@@ -269,6 +268,52 @@ function equalFunc() {
         }
         */
 
+        // I again tried to solve the issue natively in JavaScript
+        /*
+        if (operator === '+' || operator === '-') {
+            const [value1, value2] = [firstValue.toString(), secondValue.toString()]
+            if (value1.includes('.') || value2.includes('.')) {
+                const splittedValues = [value1.split('.'), value2.split('.')]
+                const nonFractionalParts = splittedValues.map(value => Number(value[0]));
+                const nonFractionalResult = operator === '+' ?
+                    nonFractionalParts.reduce((a, b) => a + b, 0)
+                    : nonFractionalParts[0] - nonFractionalParts[1];
+
+                const fractionalParts = splittedValues.map(value => value[1] ? value[1] : 0);
+                const largestFractionLength = Math.max(...fractionalParts.map(x => x.toString().length));
+                const fractionalResult =
+                    fractionalParts.reduce((a, b) => Math.abs(a) + (operator === '+' ? 1 : -1) * (b.length < largestFractionLength ?
+                        (b * Math.pow(10, largestFractionLength - b.length))
+                        : Number(b)), 0)
+
+                result = nonFractionalResult + (fractionalResult / Math.pow(10, largestFractionLength));
+            } else {
+                result = operator === '+' ? firstValue + secondValue :
+                    firstValue - secondValue
+            }
+        }
+        else if (operator === '*') {
+            const [value1, value2] = [firstValue.toString(), secondValue.toString()];
+
+            if (value1.includes('.') || value2.includes('.')) {
+                let fractionalPartLength = (value1.includes('.') && value2.includes('.')) ?
+                    (value1.split('.')[1].length > value2.split('.')[1].length) ?
+                        value1.split('.')[1].length : value2.split('.')[1].length
+                    : value1.includes('.') ? value1.split('.')[1].length
+                        : value2.split('.')[1].length;
+
+                result = ((firstValue * Math.pow(10, fractionalPartLength)) *
+                    (secondValue * Math.pow(10, fractionalPartLength))) /
+                    Math.pow(10, fractionalPartLength + fractionalPartLength);
+            } else {
+                result = firstValue * secondValue;
+            }
+        } else if (operator === '/') {
+            result = firstValue / secondValue;
+        }
+        */
+
+        // at last I use mathjs library to fix the calculation issue
         switch (operator) {
             case '+':
                 result = math.number(math.add(math.fraction(firstValue), math.fraction(secondValue)));
