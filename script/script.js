@@ -148,7 +148,8 @@ function operation(event) {
 squareBut.addEventListener('click', squareFunc);
 function squareFunc() {
     if (screen.value != '') {
-        screen.value = preventOverflow(Math.pow(Number(screen.value), 2));
+        /*screen.value = preventOverflow(Math.pow(Number(screen.value), 2));*/
+        screen.value = preventOverflow(math.number(math.square(math.fraction(screen.value))));
 
         // save answer
         saveAnsToLocaleStorage(screen.value)
@@ -166,7 +167,8 @@ function sqrtFunc() {
     if (!screen.value) return
 
     if (Number(screen.value) >= 0) {
-        screen.value = preventOverflow(Math.pow(Number(screen.value), 0.5));
+        // screen.value = preventOverflow(Math.pow(Number(screen.value), 0.5));
+        screen.value = preventOverflow(math.number(math.sqrt(screen.value)));
 
         // save answer
         saveAnsToLocaleStorage(screen.value);
@@ -184,7 +186,9 @@ function sqrtFunc() {
 // function for 1 dividing by a number
 oneDividedBut.addEventListener('click', () => {
     if (screen.value != '') {
-        screen.value = preventOverflow(1 / Number(screen.value));
+        // screen.value = preventOverflow(1 / Number(screen.value));
+        screen.value = preventOverflow(math.number(math.divide(1, math.fraction(screen.value))));
+
         saveAnsToLocaleStorage(screen.value)
 
         // clear the screen if any number button clicked
@@ -198,7 +202,7 @@ oneDividedBut.addEventListener('click', () => {
 posNegToggler.addEventListener('click', () => {
     if (screen.value != '') {
         if (Number(screen.value) < 0) {
-            screen.value = screen.value.slice(1, screen.value.length);
+            screen.value = Math.abs(Number(screen.value));
         } else if (Number(screen.value) > 0) {
             screen.value = '-' + screen.value;
         }
@@ -241,49 +245,43 @@ equalBut.addEventListener('click', equalFunc);
 
 function equalFunc() {
     if (screen.value && firstValue) {
-        secondValue = Number(screen.value);
+        secondValue = screen.value;
 
         let result = 0;
 
-        if (operator === '+' || operator === '-') {
-            const [value1, value2] = [firstValue.toString(), secondValue.toString()]
-            if (value1.includes('.') || value2.includes('.')) {
-                const splittedValues = [value1.split('.'), value2.split('.')]
-                const nonFractionalParts = splittedValues.map(value => Number(value[0]));
-                const nonFractionalResult = operator === '+' ?
-                    nonFractionalParts.reduce((a, b) => a + b, 0)
-                    : nonFractionalParts[0] - nonFractionalParts[1];
-
-                const fractionalParts = splittedValues.map(value => value[1] ? Number(value[1]) : 0);
-                const fractionalResult = operator === '+' ?
-                    fractionalParts.reduce((a, b) => a + b, 0)
-                    : fractionalParts[0] - fractionalParts[1];
-                const largestFractionLength = Math.max(...fractionalParts.map(x => x.toString().length));
-
-                result = nonFractionalResult + (fractionalResult / Math.pow(10, largestFractionLength));
-            } else {
-                result = operator === '+' ? firstValue + secondValue :
-                    firstValue - secondValue
-            }
-        }
-        else if (operator === '*') {
-            const [value1, value2] = [firstValue.toString(), secondValue.toString()];
-
-            if (value1.includes('.') || value2.includes('.')) {
-                let fractionalPartLength = (value1.includes('.') && value2.includes('.')) ?
-                    (value1.split('.')[1].length > value2.split('.')[1].length) ?
-                        value1.split('.')[1].length : value2.split('.')[1].length
-                    : value1.includes('.') ? value1.split('.')[1].length
-                        : value2.split('.')[1].length;
-
-                result = ((firstValue * Math.pow(10, fractionalPartLength)) *
-                    (secondValue * Math.pow(10, fractionalPartLength))) /
-                    Math.pow(10, fractionalPartLength + fractionalPartLength);
-            } else {
+        /* --- This part has been commented just because javascript is not so good at math
+        javascript calculates 0.1 + 0.2 and returns 0.30000000000000004
+        to solve this javascript calculation problem I've used mathjs library --- */
+        /*
+        switch(operator){
+            case '+':
+                result = Number(firstValue) + Number(secondValue);
+                break;
+            case '-':
+                result = Number(firstValue) - Number(secondValue);
+                break;
+            case '*':
                 result = firstValue * secondValue;
-            }
-        } else if (operator === '/') {
-            result = firstValue / secondValue;
+                break;
+            case '/':
+                result = firstValue / secondValue;
+                break;
+        }
+        */
+
+        switch (operator) {
+            case '+':
+                result = math.number(math.add(math.fraction(firstValue), math.fraction(secondValue)));
+                break;
+            case '-':
+                result = math.number(math.subtract(math.fraction(firstValue), math.fraction(secondValue)));
+                break;
+            case '*':
+                result = math.number(math.multiply(math.fraction(firstValue), math.fraction(secondValue)));
+                break;
+            case '/':
+                result = math.number(math.divide(math.fraction(firstValue), math.fraction(secondValue)));
+                break;
         }
 
         // prevent answer from overflowing the display
