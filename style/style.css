@@ -187,6 +187,9 @@ footer{
     font-family: 'Poppins';
     letter-spacing: 1px;
 }
+footer > a{
+    color: inherit;
+}
 
 
 /* style only for laptop or desktop */
