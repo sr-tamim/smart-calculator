@@ -10,6 +10,7 @@ This is a standard calculator made by SR TAMIM using HTML5, CSS3 &amp; Vanilla J
 - **Use your keyboard to calculate** (Backspace for `AC`, Delete for `Del` &amp; other `number` buttons)
 - **Get your last calculated answer** (Click on `ANS` button)
 - **Operate the calculator in dark or light mode**
+- **You can sync the calculator theme with your device/system theme**
 
 ### Visit the amazing calculator now. [Click here](https://sr-tamim.github.io/smart-calculator/) 
 #### or visit `https://sr-tamim.github.io/smart-calculator`
