@@ -35,17 +35,24 @@
     <meta property="twitter:title" content="Smart Calculator">
     <meta property="twitter:description" content="A standard calculator made by SR TAMIM">
     <meta property="twitter:image" content="https://calculator-srt.netlify.app/img/meta-image.png">
+
+    <script src="./script/theme.js"></script>
 </head>
 
 <body>
     <div class="container">
-
-        <!-- light and dark mode toggler -->
-        <div class="theme">
-            <div id="toggle" class="toggle">
-                <div class="toggler"></div>
+        <section class="heading-section">
+            <h1>Smart Calculator</h1>
+            <!-- light and dark mode toggler -->
+            <div>
+                <b>Theme:</b>
+                <select id="themeSelect">
+                    <option value="system">System</option>
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                </select>
             </div>
-        </div>
+        </section>
 
         <!-- calculator body -->
         <div class="calculator">
