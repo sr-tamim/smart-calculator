@@ -5,6 +5,7 @@
 /* root styles */
 :root {
     --text-color: black;
+    --accent-color: rgb(255, 102, 0);
     --body-background: white;
     --display-background: transparent;
     --button-area-back: transparent;
@@ -54,45 +55,59 @@ html {
 
 
 body {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: var(--body-background);
     margin: 0;
     transition: background 500ms ease-in-out;
 }
 
 .container {
-    position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
-    min-height: 100%;
+    height: 100%;
+    min-height: max-content;
+    max-height: 50rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+    gap: 1rem;
+    padding: 0.5rem 0.8rem;
 }
 
 /* light and dark mode toggler styles */
 .heading-section {
     width: 100%;
     min-width: 13rem;
-    max-width: 33rem;
+    max-width: 30rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: 0.5rem;
+    font-size: clamp(0.8rem, 2vw, 1rem);
 }
 
 .heading-section>h1 {
     margin: 0;
     transition: color 400ms;
+    font-size: clamp(1.1rem, 3vw, 1.5rem);
+    line-height: 1;
+}
+
+.heading-section>div>b {
+    color: var(--accent-color);
 }
 
 #themeSelect {
-    font-size: 0.9rem;
+    font-size: clamp(0.7rem, 2vw, 0.85rem);
     background-color: transparent;
     padding: 0.1rem 0;
     border: 0;
+    cursor: pointer;
 }
 
 #themeSelect:focus {
@@ -111,7 +126,7 @@ body {
 /* calculator styles */
 .calculator {
     min-width: 15rem;
-    max-width: 35rem;
+    max-width: 30rem;
 }
 
 /* calculator display styles */
@@ -146,11 +161,12 @@ body {
     width: 100%;
     height: 65vh;
     min-height: 15rem;
+    max-height: 30rem;
     background: var(--button-area-back);
     padding: 2px;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    grid-gap: 1.5vh;
+    grid-gap: clamp(0.4rem, 1vh, 1rem);
 }
 
 .input-button {
@@ -192,7 +208,7 @@ body {
 
 .operationBut,
 #equalBut {
-    background: rgb(255, 102, 0);
+    background: var(--accent-color);
 }
 
 #squareBut,
