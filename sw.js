@@ -1,5 +1,5 @@
 // service worker file
-const staticCacheName = 'calculator-v5.6.5';
+const staticCacheName = 'calculator-v5.6.9';
 const assets = [
     '/smart-calculator/',
     '/smart-calculator/index.html',

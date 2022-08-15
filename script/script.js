@@ -333,39 +333,47 @@ function removeAns(event) {
 
 
 // add keyboard functionality for computers
-document.addEventListener('keydown', event => {
-    event.preventDefault();
-
-    switch (event.key) {
+document.addEventListener('keydown', e => {
+    switch (e.key) {
         case 'Enter':
             equalBut.click();
+            e.preventDefault();
             break;
         case 'Delete':
             delBut.click();
+            e.preventDefault();
             break;
         case 'Backspace':
             acBut.click();
+            e.preventDefault();
             break;
         case 'ArrowUp':
             answerBut.click();
+            e.preventDefault();
             break;
         case '-':
             operationBut.forEach(element => {
                 if (element.innerHTML == '−') { element.click() }
             });
+            e.preventDefault();
             break;
         case '*':
             operationBut.forEach(element => {
                 if (element.innerHTML == '×') { element.click() }
             });
+            e.preventDefault();
             break;
         case '/':
-            event.preventDefault();
+            e.preventDefault();
             operationBut.forEach(element => {
                 if (element.innerHTML == '÷') { element.click() }
             });
+            e.preventDefault();
             break;
         default:
-            inputButtons.forEach(element => event.key === element.innerText && element.click())
+            const targetButton = [...inputButtons].find(element => e.key === element.innerText);
+            if (targetButton) {
+                targetButton.click(); e.preventDefault();
+            }
     }
 })
